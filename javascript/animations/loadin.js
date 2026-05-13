@@ -17,3 +17,7 @@ setTimeout(() => {
 
 mainUI.classList.remove('hidden');
 mainUI.classList.remove('opacity-0');
+
+setTimeout(() => {
+window.location.href = ('../../../ui.html');
+}, 12000)
