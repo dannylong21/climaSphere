@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UIMaker</title>
     <link rel="stylesheet" href="./src/output.css">
-    <script src="./javascript/themeToggle.js" defer></script>
+    <script src="./javascript/animations/themeToggle.js" defer></script>
+    <script src="./javascript/dataFetch.js" defer></script>
 </head>
 <body class="bg-[#0f172] flex flex-col min-h-screen transition-all duration-400">
     <div id="header" class="m-2 flex flex-col items-center border-b ronuded-lg border-gray-300 p-2 gap-2 sm:flex-row sm:justify-between transition-all duration-400">
@@ -32,19 +33,18 @@
         flex-row 
         justify-between 
         border
-        border-gray-300
-        w-full 
+        border-gray-300 
         m-1
         rounded-lg
-        sm:max-w-[500px]
+        w-full
         transition-all duration-400">
-            <input type="text" name="search-input" id="search-input-box" class="pl-1 transition-all duration-400" placeholder="Enter a country...">
+            <input type="text" name="search-input" id="search-input-box" class="pl-1 transition-all duration-400 w-full" placeholder="Enter a country...">
             <div class="
             border-l 
             p-0.5
             border-gray-300
             transition-all duration-400">
-            <button onclick="searchCountry()" class="
+            <button onclick="fetchData()" class="
             cursor-pointer 
             font-light 
             bg-sky-200 
@@ -59,15 +59,19 @@
             </div>
         </div>
     </div>
+    <div id="status-bar" class="text-center m-1">
+        <p id="success-text" class="text-green-500 hidden">Successfully Searched</p>
+        <p id="failure-text" class="text-red-700 hidden">Search failed, please try again!</p>
+    </div>
 
-    <div id="search-results-containers" class="flex flex-grow flex-col items-center justify-center gap-2 sm:place-items-center sm:grid sm:grid-cols-3 sm:grid-rows-1 transition-all duration-400 ">
+    <div id="search-results-containers" class="w-full flex-grow px-3 sm:px-4 lg:px-8 xl:px-10 2xl:px-12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 md:auto-rows-fr items-stretch content-stretch transition-all duration-400">
         
-        <div class="search-result-country-info bg-white border rounded-lg border-gray-200 w-[90%] h-fit sm:h-[300px] sm:max-w-[60%] transition-all duration-400">
+        <div class="search-result-country-info bg-white border rounded-lg border-gray-200 w-full h-auto md:h-full md:min-h-[450px] transition-all duration-400">
             <div id="header" class="bg-gray-300 rounded-t-lg text-center p-2 transition-all duration-400">
                 <p class="text-[18px] font-bold transition-all duration-400">Country Info</p>
             </div>
-            <div id="flag-image" class="text-center transition-all duration-400">
-                TBD
+            <div id="flag-image-container" class="flex h-[180px] w-[70%] m-auto transition-all duration-400 sm:h-[160px] sm:w-[55%]">
+                <img src="" id="flag-image" class="h-full w-full m-2" >
             </div>
             <div id="country-name" class="border-b border-gray-200 h-[40px] flex flex-row justify-center items-end transition-all duration-400">
                 <p id="country-name-result" class="font-bold font-sans transition-all duration-400">
@@ -75,23 +79,13 @@
                 </p>
             </div>
             <div id="country-pop" class="transition-all duration-400">
-                <p id="population-result" class="m-1 font-light transition-all duration-400">
-                    Population:
-                </p>
-            </div>
-            <div id="country-region" class="transition-all duration-400">
-                <p id="religion-result" class="m-1 font-light transition-all duration-400">
-                    Religion:
-                </p>
-            </div>
-            <div id="country-capital" class="transition-all duration-400">
-                <p id="capital-result" class="m-1 font-light transition-all duration-400">
-                    Capital:
+                <p id="population-result" class="text-center m-1 font-light transition-all duration-400">
+                    Country Information
                 </p>
             </div>
         </div>
             
-        <div class="search-result-country-weather bg-white w-[90%] rounded-lg border border-gray-300 sm:h-[300px] sm:max-w-[60%] transition-all duration-400">
+        <div class="search-result-country-weather bg-white w-full rounded-lg border border-gray-300 h-auto md:h-full md:min-h-[450px] transition-all duration-400">
                 <div id="header" class="bg-gray-300 rounded-t-lg text-center p-2 transition-all duration-400">
                 <p class="text-[18px] font-bold transition-all duration-400">
                     Country Current Weather
@@ -99,7 +93,7 @@
             </div>
                 <div id="weather-temp-container" class="transition-all duration-400">
                 <p id="temp-result" class="font-bold text-[42px] text-center transition-all duration-400">
-                    67°F
+                    0°F
                 </p>
             </div>
                 <div id="temp-conversion-toggle-container" class="text-center w-full transition-all duration-400">
@@ -124,7 +118,7 @@
             </div>
         </div>
         
-        <div class="search-result-country-weather bg-white w-[90%] rounded-lg border border-gray-300 sm:h-[300px] sm:max-w-[60%] transition-all duration-400">
+        <div class="search-result-country-weather bg-white w-full rounded-lg border border-gray-300 h-auto md:h-full md:min-h-[450px] transition-all duration-400">
                 <div id="header" class="bg-gray-300 rounded-t-lg text-center p-2 transition-all duration-400">
                 <p class="text-[18px] font-bold transition-all duration-400">
                     Country Air Quality
