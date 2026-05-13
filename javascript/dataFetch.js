@@ -27,11 +27,21 @@ const fetchData = async () => {
 
         // UI Conversions
 
+        //UI Country Information Conversion
+
         successText.classList.remove('hidden');
         countryFlag.src = `${data[0].flags.png}`;
         countryName.textContent = `${data[0].name.common}`;
         successText.innerHTML = `${data[0].name.common} was sucessfully searched`;
-        popResult.innerHTML = `${data[0].name.common} has a population of ${BigInt(data[0].population).toLocaleString("en-US")}. The capital of ${data[0].name.common} is ${data[0].capital}.`;
+        popResult.innerHTML = `${data[0].name.common} has a population of ${BigInt(data[0].population).toLocaleString("en-US")}. 
+        The capital of ${data[0].name.common} is ${data[0].capital}
+        and is in the ${data[0].region} region. The week also starts on ${data[0].startOfWeek}.
+        This country is also ${data[0].status} to the United Nations.
+        `;
+
+        // UI Country Weather Conversion
+
+        const countryWeatherInfo = await fetch(``);
 
     } catch (error) {
         console.error(`FETCH FAILED | DATA UNOBTAINED`, error.message);
