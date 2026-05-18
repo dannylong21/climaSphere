@@ -1,53 +1,25 @@
-
-
+const input = document.querySelector('input');
+const inputString = document.getElementById('search-input');
 // SEARCH FETCH
 
-const fetchData = async () => {
-    const searchbarText = document.getElementById('search-input-box');
-    const countryFlag = document.getElementById('flag-image');
-    const countryName = document.getElementById('country-name-result');
-    const popResult = document.getElementById('population-result');
-    const failureText = document.getElementById('failure-text');
-    const successText = document.getElementById('success-text');
+input.addEventListener('keydown', async (event) => {
+    if (event.key === "Enter"){
     try {
-        const countryInfo = await fetch(`https://restcountries.com/v3.1/name/${searchbarText.value}/`);
+        const countryInfo = await fetch(`https://restcountries.com/v3.1/name/${inputString.value}/`);
 
-        // CHECK IF HTTP RESPONSE IS SUCCESSUL
+ if (!countryInfo.ok) {
+    throw new Error('Country not found.');
+ }
 
-        if(!countryInfo.ok){
-            throw new Error(`HTTP Response Bad | Try again later or contact support.`);
-            failureText.classList.remove('hidden');
-        }
+ const data = await countryInfo.json();
+ const country = data[0];
 
-        const data = await countryInfo.json();
+ console.log(country);
 
-        // Console Log Messages
-
-        console.log('Data fetched');
-
-        // UI Conversions
-
-        //UI Country Information Conversion
-
-        successText.classList.remove('hidden');
-        countryFlag.src = `${data[0].flags.png}`;
-        countryName.textContent = `${data[0].name.common}`;
-        successText.innerHTML = `${data[0].name.common} was sucessfully searched`;
-        popResult.innerHTML = `${data[0].name.common} has a population of ${BigInt(data[0].population).toLocaleString("en-US")}. 
-        The capital of ${data[0].name.common} is ${data[0].capital}
-        and is in the ${data[0].region} region. The week also starts on ${data[0].startOfWeek}.
-        This country is also ${data[0].status} to the United Nations.
-        `;
-
-        // UI Country Weather Conversion
-
-        const countryWeatherInfo = await fetch(``);
-
-    } catch (error) {
-        console.error(`FETCH FAILED | DATA UNOBTAINED`, error.message);
-        console.log(searchbarText);
-        failureText.classList.remove('hidden');
-    } finally {
-        console.log("Overall search complete, please see any related console messages");
-    }
 }
+
+     catch (error){
+        console.log(error)
+
+    }
+}})
